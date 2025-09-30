@@ -1,21 +1,5 @@
 import { test, expect, chromium, firefox } from '@playwright/test';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
-
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
-
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
-
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
-});
 
 test('cookieClicker', async ()  => {
     const userDataDir = './user-data';
@@ -24,5 +8,7 @@ test('cookieClicker', async ()  => {
     });
     const page = await browser.newPage();
     await page.goto('https://orteil.dashnet.org/cookieclicker/');
-
+    let products =  await page.locator('//div[@id="products"]//label[@class="srOnly"]' ).getAttribute()
+  console.log("should be products ", products)
+    await page.waitForSelector('google');
 })
