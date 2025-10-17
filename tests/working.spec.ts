@@ -1,4 +1,5 @@
 import { test, expect, chromium, firefox, Page } from '@playwright/test';
+import {monitorEventLoopDelay} from "node:perf_hooks";
 
 
 test('workingcookieClicker', async ()  => {
@@ -8,13 +9,13 @@ test('workingcookieClicker', async ()  => {
         ignoreHTTPSErrors: true
     });
     const products: any[][] = [];
-    const numberOfClicks = 400;
+    const numberOfClicks = 4;
     const page = await browser.newPage();
     await page.goto('https://orteil.dashnet.org/cookieclicker/');
     await page.waitForSelector('#product0');
   await clickBigCookieNumberOfTimes(page,numberOfClicks);
   let cookiesPerSecondBase = await page.locator('#cookiesPerSecond').innerText();
-    let cookiesPerSecond = Number(removeCommas(cookiesPerSecondBase.replace('per second: ', '')));
+    let cookiesPerSecond = parseNumbers(cookiesPerSecondBase.replace('per second: ', ''));
     // @ts-ignore
   console.log('cookiesPerSecondBase', cookiesPerSecondBase, ': ' , cookiesPerSecond);
     let productsLocator =  await page.locator('//div[@id="products"]//div[@class="content"]')
@@ -93,4 +94,65 @@ function removeCommas(numStr: string) {
     numStr = numStr.replace(',','');
   }
   return numStr;
+}
+
+function parseNumbers(numberToParse) {
+    if (numberToParse.includes(' ')) {
+        let numberParts = numberToParse.split(' ');
+        switch (numberParts[1]) {
+            case 'quadrillion':
+                return numberParts[0]*Math.pow(10, 15);
+                break;
+            case 'quintillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'sextillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'septillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'octillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'nonillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'decillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'undecillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'duodecillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'tredecillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'quattuordecillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'quindecillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'sexdecillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'septendecillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'octodecillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'novemdecillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+            case 'vigintillion':
+                return numberParts[0]*Math.pow(10, 18);
+                break;
+        }
+    } else {
+        return Number(removeCommas(numberToParse));
+    }
 }
